@@ -2,10 +2,16 @@ on:
   push:
     paths:
       - 'DESCRIPTION'
+      - 'vignettes/*.Rmd'
 jobs:
   job1:
     runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
+    
+    env:
+        namespace: ${{ secrets.ANVIL_NAMESPACE }}
+        name: ${{ secrets.ANVIL_NAME }}
+
     steps:
       - uses: actions/checkout@v3
 
@@ -22,5 +28,5 @@ jobs:
 
       - name: Publish to AnVIL
         #env: can I get environment variables for AnVIL name / namespace?
-        run: AnVILPublish::av_workspace(path = , namespace = , name = , update = TRUE)
+        run: AnVILPublish::as_workspace(path = , namespace = env.namespace, name = env.name, update = TRUE)
         shell: Rscript {0}
