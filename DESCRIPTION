@@ -1,6 +1,6 @@
 Package: testGHActions
 Title: Simple package for testing creation of GitHub Actions
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: 
     person(given = "Kayla", family = "Interdonato",
     email = "kayla.morrell@roswellpark.org", 
@@ -9,6 +9,9 @@ Description: This is a simple package / repo for testing the creation of
     AnVILPublish related GitHub Actions. The idea is that if a version bump is
     pushed for this package, then AnVILPublish would update the corresponding
     workspace in AnVIL.
+Imports:
+    AnVILPublish,
+    AnVIL
 License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

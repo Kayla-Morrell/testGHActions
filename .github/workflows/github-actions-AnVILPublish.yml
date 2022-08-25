@@ -1,0 +1,15 @@
+on:
+  push:
+    paths:
+      - 'DESCRIPTION'
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    container: bioconductor/bioconductor_docker:devel
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Publish to AnVIL
+        #env: can I get environment variables for AnVIL name / namespace?
+        run: AnVILPublish::av_workspace(path = , namespace = , name = , update = TRUE)
+        shell: Rscript {0}
