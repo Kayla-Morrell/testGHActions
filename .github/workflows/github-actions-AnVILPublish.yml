@@ -33,5 +33,5 @@ jobs:
 
       - name: Publish to AnVIL
         #env: can I get environment variables for AnVIL name / namespace?
-        run: AnVILPublish::as_workspace(path = ".", namespace = env.namespace, name = env.name, update = TRUE)
+        run: AnVILPublish::as_workspace(path = ".", namespace = namespace, name = name, update = TRUE)
         shell: Rscript {0}
