@@ -7,7 +7,18 @@ jobs:
     runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
+
+      - name: Install BiocManager
+        run: |
+            install.packages('remotes')
+            remotes::install_cran("BiocManager")
+        shell: Rscript {0}
+
+      - name: Install dependencies
+        run: |
+            BiocManager::install(c("AnVILPublish", "notedown"))
+        shell: Rscript {0}
 
       - name: Publish to AnVIL
         #env: can I get environment variables for AnVIL name / namespace?
