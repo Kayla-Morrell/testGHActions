@@ -19,6 +19,13 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+
+      - name: Install python module notedown
+        run: pip install notedown
 
       - name: Install BiocManager
         run: |
@@ -28,10 +35,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-            BiocManager::install(c("AnVILPublish", "notedown"))
+            BiocManager::install('AnVILPublish')
         shell: Rscript {0}
 
       - name: Publish to AnVIL
         #env: can I get environment variables for AnVIL name / namespace?
-        run: AnVILPublish::as_workspace(path = ".", namespace = ${{ secrets.ANVIL_NAMESPACE }}, name = ${{ secrets.ANVIL_NAME }}, update = TRUE)
+        run: AnVILPublish::as_workspace(path = getwd(), namespace = ${{ secrets.ANVIL_NAMESPACE }}, name = ${{ secrets.ANVIL_NAME }}, update = TRUE)
         shell: Rscript {0}
