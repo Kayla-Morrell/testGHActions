@@ -18,20 +18,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        
-      - uses: actions/setup-python@v4
+       
+      - name: Set up gcloud CLI
+      - uses: google-github-actions/setup-gcloud@v0
         with:
-          python-version: '3.9'
-          cache: 'pip'
-
+          version: '290.0.1'
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+ 
       - name: Install python module notedown
-        run: pip install notedown
-
-      - name: Install BiocManager
-        run: |
-            install.packages('remotes')
-            remotes::install_cran("BiocManager")
-        shell: Rscript {0}
+        run: pip3 install notedown
 
       - name: Install dependencies
         run: |
@@ -39,6 +35,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Publish to AnVIL
-        #env: can I get environment variables for AnVIL name / namespace?
-        run: AnVILPublish::as_workspace(path = getwd(), namespace = ${{ secrets.ANVIL_NAMESPACE }}, name = ${{ secrets.ANVIL_NAME }}, update = TRUE)
+        run: |
+            Sys.getenv()
+            AnVILPublish::as_workspace(path = getwd(), namespace = namespace, name = name, update = TRUE)
         shell: Rscript {0}
