@@ -16,16 +16,21 @@ jobs:
         name: ${{ secrets.ANVIL_NAME }}
         GITHUB_PAT: ${{ secrets.GITHUB_TOKEN}}
 
+    permissions:
+        contents: 'read'
+        id-token: 'write'
+
     steps:
       - uses: actions/checkout@v3
 
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v0'
-        with:
-            workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-            service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
+#      - id: 'auth'
+#        name: 'Authenticate to Google Cloud'
+#        uses: 'google-github-actions/auth@v0'
+#        with:
+#            workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+#            service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
        
-      - uses: google-github-actions/setup-gcloud@v0
+#      - uses: google-github-actions/setup-gcloud@v0
  
       - name: Install python module notedown
         run: pip3 install notedown
@@ -38,5 +43,5 @@ jobs:
       - name: Publish to AnVIL
         run: |
             Sys.getenv()
-            AnVILPublish::as_workspace(path = getwd(), namespace = namespace, name = name, update = TRUE)
+            AnVILPublish::as_workspace(path = getwd(), namespace = namespace, name = name, update = FALSE, create = FALSE)
         shell: Rscript {0}
