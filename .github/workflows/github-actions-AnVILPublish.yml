@@ -42,6 +42,7 @@ jobs:
 
       - name: Publish to AnVIL
         run: |
-            Sys.getenv()
+            namespace <- Sys.getenv("namespace")
+            name <- Sys.getenv("name")
             AnVILPublish::as_workspace(path = getwd(), namespace = namespace, name = name, update = FALSE, create = FALSE)
         shell: Rscript {0}
