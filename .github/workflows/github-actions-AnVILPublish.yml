@@ -34,6 +34,11 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v0'
 
+      - id: 'gcloud-set-project'
+        name: 'gcloud set project'
+        run: |-
+            gcloud config set project "${{ secrets.ANVIL_NAMESPACE }}"
+
       - id: 'gcloud-info'
         name: 'gcloud info'
         run: |-
