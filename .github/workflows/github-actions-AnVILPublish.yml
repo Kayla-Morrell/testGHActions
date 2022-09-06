@@ -23,26 +23,39 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-#      - id: 'auth'
-#        name: 'Authenticate to Google Cloud'
-#        uses: 'google-github-actions/auth@v0'
-#        with:
-#            workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-#            service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
-       
-#      - uses: google-github-actions/setup-gcloud@v0
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0'
+        with:
+           workload_identity_provider: ${{ secrets.WRKLOAD_ID_PROVIDER }}
+           service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
+    # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+
+    - id: 'gcloud'
+      name: 'gcloud info'
+      run: |-
+        gcloud info
+
+    # Now you can run gcloud commands authenticated as the impersonated service account.
+    - id: 'gcloud'
+      name: 'gcloud'
+      run: |-
+        gcloud secrets versions access "latest" --secret "my-secret"
  
-      - name: Install python module notedown
-        run: pip3 install notedown
+#      - name: Install python module notedown
+#        run: pip3 install notedown
 
-      - name: Install dependencies
-        run: |
-            BiocManager::install('AnVILPublish')
-        shell: Rscript {0}
+#      - name: Install dependencies
+#        run: |
+#            BiocManager::install('AnVILPublish')
+#        shell: Rscript {0}
 
-      - name: Publish to AnVIL
-        run: |
-            namespace <- Sys.getenv("namespace")
-            name <- Sys.getenv("name")
-            AnVILPublish::as_workspace(path = getwd(), namespace = namespace, name = name, update = FALSE, create = FALSE)
-        shell: Rscript {0}
+#      - name: Publish to AnVIL
+#        run: |
+#            namespace <- Sys.getenv("namespace")
+#            name <- Sys.getenv("name")
+#            AnVILPublish::as_workspace(path = getwd(), namespace = namespace, name = name, update = FALSE, create = FALSE)
+#        shell: Rscript {0}
