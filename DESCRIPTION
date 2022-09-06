@@ -1,6 +1,6 @@
 Package: testGHActions
 Title: Simple package for testing creation of GitHub Actions
-Version: 0.99.19
+Version: 0.99.20
 Authors@R: 
     person(given = "Kayla", family = "Interdonato",
     email = "kayla.morrell@roswellpark.org", 
