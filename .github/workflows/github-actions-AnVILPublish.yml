@@ -37,7 +37,7 @@ jobs:
       - id: 'gcloud-set-project'
         name: 'gcloud set project'
         run: |-
-            gcloud config set project "${{ secrets.ANVIL_NAMESPACE }}"
+            gcloud config set account "{{ secrets.ACCOUNT }}"
 
       - id: 'gcloud-info'
         name: 'gcloud info'
